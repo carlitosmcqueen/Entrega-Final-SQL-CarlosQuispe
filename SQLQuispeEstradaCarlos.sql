@@ -1,6 +1,8 @@
 
 CREATE DATABASE primera_entrega
 
+USE primera_entrega
+
 
 -------------------------TABLAS ---------------------------
 
@@ -21,7 +23,7 @@ CREATE TABLE cliente (
   nombre VARCHAR(30) NOT NULL,
   apellido VARCHAR(30) NOT NULL,
   tipo_de_documento VARCHAR(30) NOT NULL,
-  N_documento VARCHAR(30) NOT NULL,
+  N_documento INT NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -569,3 +571,9 @@ FOR EACH ROW
 INSERT INTO historial_tratamientos(id_tratamiento, id_animal, fecha, hora)
 VALUES (NEW.id, NEW.id_animal, CURRENT_DATE(), CURRENT_TIME());
 
+---------VALORES ------------- (para demostrar que si se poner valores)
+
+INSERT INTO cliente (nombre, apellido, tipo_de_documento, N_documento)
+VALUES
+  ('John', 'Doe', 'DNI', 12345478),
+  ('Jane', 'Smith', 'DNI', 98765432);
