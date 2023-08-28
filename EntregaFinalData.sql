@@ -103,7 +103,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `log_nuevos_animales` WRITE;
 /*!40000 ALTER TABLE `log_nuevos_animales` DISABLE KEYS */;
-INSERT INTO `log_nuevos_animales` VALUES (5,'ciro','perro',12),(6,'coscu','loro',17);
+INSERT INTO `log_nuevos_animales` VALUES (5,'ciro','perro',12),(6,'coscu','loro',17),(7,'das','asddas',212);
 /*!40000 ALTER TABLE `log_nuevos_animales` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,7 +133,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `log_ticket_nuevo` WRITE;
 /*!40000 ALTER TABLE `log_ticket_nuevo` DISABLE KEYS */;
-INSERT INTO `log_ticket_nuevo` VALUES (9,400.00,84.00,'2023-08-15','20:19:11',484.00,123316),(10,541.06,113.61,'2023-08-15','21:19:43',654.67,123317),(11,2500.00,525.00,'2023-08-15','21:20:47',3025.00,123318),(12,1241.06,260.61,'2023-08-15','21:39:34',1501.67,123319),(13,400.00,84.00,'2023-08-15','23:25:36',484.00,123320),(14,1492.82,313.53,'2023-08-15','23:44:05',1806.35,123321),(15,0.00,0.00,'2023-08-15','23:44:55',0.00,123322),(16,700.00,147.00,'2023-08-15','23:48:17',847.00,123323),(17,700.00,147.00,'2023-08-16','00:28:24',847.00,123324),(18,1082.12,227.22,'2023-08-16','18:59:53',1309.34,123325),(19,1520.00,319.20,'2023-08-20','22:55:49',1839.20,123326),(20,1280.00,268.80,'2023-08-20','22:58:26',1548.80,123327),(21,682.15,143.22,'2023-08-20','23:02:51',825.37,123328),(22,0.00,0.00,'2023-08-20','23:52:09',0.00,123331),(23,2500.00,525.00,'2023-08-20','23:52:47',3025.00,123332),(24,400.00,84.00,'2023-08-25','18:08:24',484.00,123333);
+INSERT INTO `log_ticket_nuevo` VALUES (9,400.00,84.00,'2023-08-15','20:19:11',484.00,123316),(10,541.06,113.61,'2023-08-15','21:19:43',654.67,123317),(11,2500.00,525.00,'2023-08-15','21:20:47',3025.00,123318),(12,1241.06,260.61,'2023-08-15','21:39:34',1501.67,123319),(13,400.00,84.00,'2023-08-15','23:25:36',484.00,123320),(14,1492.82,313.53,'2023-08-15','23:44:05',1806.35,123321),(15,0.00,0.00,'2023-08-15','23:44:55',0.00,123322),(16,700.00,147.00,'2023-08-15','23:48:17',847.00,123323),(17,700.00,147.00,'2023-08-16','00:28:24',847.00,123324),(18,1082.12,227.22,'2023-08-16','18:59:53',1309.34,123325),(19,1520.00,319.20,'2023-08-20','22:55:49',1839.20,123326),(20,1280.00,268.80,'2023-08-20','22:58:26',1548.80,123327),(21,682.15,143.22,'2023-08-20','23:02:51',825.37,123328),(22,0.00,0.00,'2023-08-20','23:52:09',0.00,123331),(23,2500.00,525.00,'2023-08-20','23:52:47',3025.00,123332),(24,400.00,84.00,'2023-08-25','18:08:24',484.00,123333),(25,1000.00,210.00,'2023-08-25','22:31:30',1210.00,123334),(26,400.00,84.00,'2023-08-28','01:31:28',484.00,123335);
 /*!40000 ALTER TABLE `log_ticket_nuevo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,7 +143,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `log_venta_mercaderia` WRITE;
 /*!40000 ALTER TABLE `log_venta_mercaderia` DISABLE KEYS */;
-INSERT INTO `log_venta_mercaderia` VALUES (87,5,400.00,1,484.00,84.00,'2023-08-15','20:19:11'),(88,17,541.06,1,654.67,113.61,'2023-08-15','21:19:43'),(89,17,541.06,1,654.67,113.61,'2023-08-15','21:39:34'),(90,5,400.00,1,484.00,84.00,'2023-08-15','23:25:35'),(91,16,746.41,2,1806.35,313.53,'2023-08-15','23:44:05'),(92,17,541.06,2,1309.34,227.22,'2023-08-16','18:59:53'),(93,20,260.00,2,629.20,109.20,'2023-08-20','22:55:48'),(94,22,320.00,4,1548.80,268.80,'2023-08-20','22:58:26'),(95,18,682.15,1,825.37,143.22,'2023-08-20','23:02:51'),(96,5,400.00,1,484.00,84.00,'2023-08-25','18:08:24');
+INSERT INTO `log_venta_mercaderia` VALUES (87,5,400.00,1,484.00,84.00,'2023-08-15','20:19:11'),(88,17,541.06,1,654.67,113.61,'2023-08-15','21:19:43'),(89,17,541.06,1,654.67,113.61,'2023-08-15','21:39:34'),(90,5,400.00,1,484.00,84.00,'2023-08-15','23:25:35'),(91,16,746.41,2,1806.35,313.53,'2023-08-15','23:44:05'),(92,17,541.06,2,1309.34,227.22,'2023-08-16','18:59:53'),(93,20,260.00,2,629.20,109.20,'2023-08-20','22:55:48'),(94,22,320.00,4,1548.80,268.80,'2023-08-20','22:58:26'),(95,18,682.15,1,825.37,143.22,'2023-08-20','23:02:51'),(96,5,400.00,1,484.00,84.00,'2023-08-25','18:08:24'),(97,5,400.00,1,484.00,84.00,'2023-08-28','01:31:28');
 /*!40000 ALTER TABLE `log_venta_mercaderia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +153,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `log_venta_tratamiento` WRITE;
 /*!40000 ALTER TABLE `log_venta_tratamiento` DISABLE KEYS */;
-INSERT INTO `log_venta_tratamiento` VALUES (48,9,2500.00,'2023-08-15','21:20:47'),(49,6,700.00,'2023-08-15','21:39:34'),(50,6,700.00,'2023-08-15','23:48:17'),(51,6,700.00,'2023-08-16','00:28:24'),(52,7,1000.00,'2023-08-20','22:55:48'),(53,9,2500.00,'2023-08-20','23:52:47');
+INSERT INTO `log_venta_tratamiento` VALUES (48,9,2500.00,'2023-08-15','21:20:47'),(49,6,700.00,'2023-08-15','21:39:34'),(50,6,700.00,'2023-08-15','23:48:17'),(51,6,700.00,'2023-08-16','00:28:24'),(52,7,1000.00,'2023-08-20','22:55:48'),(53,9,2500.00,'2023-08-20','23:52:47'),(54,7,1000.00,'2023-08-25','22:31:29');
 /*!40000 ALTER TABLE `log_venta_tratamiento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,7 +173,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `mercaderia` WRITE;
 /*!40000 ALTER TABLE `mercaderia` DISABLE KEYS */;
-INSERT INTO `mercaderia` VALUES (5,'Donec',9,'scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed, facilisis',400.00,1),(11,'molestie',8,'velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod',139.45,1),(12,'diam',5,'aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt,',18.44,1),(14,'orci',10,'metus urna convallis erat, eget tincidunt dui augue eu tellus.',952.21,4),(16,'purus.',6,'Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas',746.41,4),(17,'tortor,',3,'Sed congue, elit sed consequat auctor, nunc nulla vulputate dui,',541.06,4),(18,'sem',2,'fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh',682.15,1),(19,'interdum.',1,'dolor quam, elementum at, egestas a, scelerisque sed, sapien. Nunc',178.52,4),(20,'magnis',4,'magnis pelotas',260.00,4),(21,'Galletitas Kitty',15,'galletas para gatos',300.00,6),(22,'Huesito Joy',6,'huesito de plastico para perro',320.00,8);
+INSERT INTO `mercaderia` VALUES (5,'Donec',8,'scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed, facilisis',400.00,1),(11,'molestie',8,'velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod',139.45,1),(12,'diam',5,'aliquet. Proin velit. Sed malesuada augue ut lacus. Nulla tincidunt,',18.44,1),(14,'orci',10,'metus urna convallis erat, eget tincidunt dui augue eu tellus.',952.21,4),(16,'purus.',6,'Ut sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas',746.41,4),(17,'tortor,',3,'Sed congue, elit sed consequat auctor, nunc nulla vulputate dui,',541.06,4),(18,'sem',2,'fringilla euismod enim. Etiam gravida molestie arcu. Sed eu nibh',682.15,1),(19,'interdum.',1,'dolor quam, elementum at, egestas a, scelerisque sed, sapien. Nunc',178.52,4),(20,'magnis',4,'magnis pelotas',260.00,4),(21,'Galletitas Kitty',15,'galletas para gatos',300.00,6),(22,'Huesito Joy',6,'huesito de plastico para perro',320.00,8);
 /*!40000 ALTER TABLE `mercaderia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,7 +203,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `provedor_contacto` WRITE;
 /*!40000 ALTER TABLE `provedor_contacto` DISABLE KEYS */;
-INSERT INTO `provedor_contacto` VALUES (1,1,'correo1@ejemplo.com',54,12345671,'calle falsa 1','CABA',NULL,'Argentina','1007'),(2,4,'correo2@ejemplo.com',54,12345672,'calle falsa 2','CABA',NULL,'Argentina','1007'),(3,6,'correo3@ejemplo.com',54,12345673,'calle falsa 3','CABA',NULL,'Argentina','1007'),(4,8,'correo4@ejemplo.com',54,12345674,'calle falsa 4','CABA',NULL,'Argentina','1007'),(5,9,'correo5@ejemplo.com',54,12345675,'calle falsa 5','CABA',NULL,'Argentina','1007');
+INSERT INTO `provedor_contacto` VALUES (1,1,'correo1@ejemplo.com',54,12345671,'calle falsa 1','CABA',NULL,'Argentina',1007),(2,4,'correo2@ejemplo.com',54,12345672,'calle falsa 2','CABA',NULL,'Argentina',1007),(3,6,'correo3@ejemplo.com',54,12345673,'calle falsa 3','CABA',NULL,'Argentina',1007),(4,8,'correo4@ejemplo.com',54,12345674,'calle falsa 4','CABA',NULL,'Argentina',1007),(5,9,'correo5@ejemplo.com',54,12345675,'calle falsa 5','CABA',NULL,'Argentina',1007);
 /*!40000 ALTER TABLE `provedor_contacto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -213,7 +213,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `ticket` WRITE;
 /*!40000 ALTER TABLE `ticket` DISABLE KEYS */;
-INSERT INTO `ticket` VALUES (123316,1,400.00,84.00,484.00,'2023-08-15 23:19:11',1),(123317,1,541.06,113.61,654.67,'2023-08-16 00:19:43',1),(123318,1,2500.00,525.00,3025.00,'2023-08-16 00:20:46',2),(123319,1,1241.06,260.61,1501.67,'2023-08-16 00:39:34',1),(123320,2,400.00,84.00,484.00,'2023-08-16 02:25:35',1),(123321,1,1492.82,313.53,1806.35,'2023-08-16 02:44:05',1),(123322,1,0.00,0.00,0.00,'2023-08-16 02:44:55',1),(123323,7,700.00,147.00,847.00,'2023-08-16 02:48:17',1),(123324,7,700.00,147.00,847.00,'2023-08-16 03:28:24',2),(123325,7,1082.12,227.22,1309.34,'2023-08-16 21:59:53',4),(123326,11,1520.00,319.20,1839.20,'2023-08-21 01:55:48',7),(123327,15,1280.00,268.80,1548.80,'2023-08-21 01:58:26',8),(123328,8,682.15,143.22,825.37,'2023-08-21 02:02:51',8),(123331,8,0.00,0.00,0.00,'2023-08-21 02:52:09',11),(123332,1,2500.00,525.00,3025.00,'2023-08-21 02:52:47',5),(123333,1,400.00,84.00,484.00,'2023-08-25 21:08:23',1);
+INSERT INTO `ticket` VALUES (123316,1,400.00,84.00,484.00,'2023-08-15 23:19:11',1),(123317,1,541.06,113.61,654.67,'2023-08-16 00:19:43',1),(123318,1,2500.00,525.00,3025.00,'2023-08-16 00:20:46',2),(123319,1,1241.06,260.61,1501.67,'2023-08-16 00:39:34',1),(123320,2,400.00,84.00,484.00,'2023-08-16 02:25:35',1),(123321,1,1492.82,313.53,1806.35,'2023-08-16 02:44:05',1),(123322,1,0.00,0.00,0.00,'2023-08-16 02:44:55',1),(123323,7,700.00,147.00,847.00,'2023-08-16 02:48:17',1),(123324,7,700.00,147.00,847.00,'2023-08-16 03:28:24',2),(123325,7,1082.12,227.22,1309.34,'2023-08-16 21:59:53',4),(123326,11,1520.00,319.20,1839.20,'2023-08-21 01:55:48',7),(123327,15,1280.00,268.80,1548.80,'2023-08-21 01:58:26',8),(123328,8,682.15,143.22,825.37,'2023-08-21 02:02:51',8),(123331,8,0.00,0.00,0.00,'2023-08-21 02:52:09',11),(123332,1,2500.00,525.00,3025.00,'2023-08-21 02:52:47',5),(123333,1,400.00,84.00,484.00,'2023-08-25 21:08:23',1),(123334,1,1000.00,210.00,1210.00,'2023-08-26 01:31:29',7),(123335,1,400.00,84.00,484.00,'2023-08-28 04:31:28',1);
 /*!40000 ALTER TABLE `ticket` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,7 +223,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `ticket_mercaderia` WRITE;
 /*!40000 ALTER TABLE `ticket_mercaderia` DISABLE KEYS */;
-INSERT INTO `ticket_mercaderia` VALUES (110,123316,5,400.00,1,484.00,84.00,1,400.00),(111,123317,17,541.06,1,654.67,113.61,1,541.06),(112,123319,17,541.06,1,654.67,113.61,1,541.06),(113,123320,5,400.00,1,484.00,84.00,1,400.00),(114,123321,16,746.41,2,1806.35,313.53,1,1492.82),(115,123325,17,541.06,2,1309.34,227.22,4,1082.12),(116,123326,20,260.00,2,629.20,109.20,7,520.00),(117,123327,22,320.00,4,1548.80,268.80,8,1280.00),(118,123328,18,682.15,1,825.37,143.22,8,682.15),(119,123333,5,400.00,1,484.00,84.00,1,400.00);
+INSERT INTO `ticket_mercaderia` VALUES (110,123316,5,400.00,1,484.00,84.00,1,400.00),(111,123317,17,541.06,1,654.67,113.61,1,541.06),(112,123319,17,541.06,1,654.67,113.61,1,541.06),(113,123320,5,400.00,1,484.00,84.00,1,400.00),(114,123321,16,746.41,2,1806.35,313.53,1,1492.82),(115,123325,17,541.06,2,1309.34,227.22,4,1082.12),(116,123326,20,260.00,2,629.20,109.20,7,520.00),(117,123327,22,320.00,4,1548.80,268.80,8,1280.00),(118,123328,18,682.15,1,825.37,143.22,8,682.15),(119,123333,5,400.00,1,484.00,84.00,1,400.00),(120,123335,5,400.00,1,484.00,84.00,1,400.00);
 /*!40000 ALTER TABLE `ticket_mercaderia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +233,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `ticket_tratamiento` WRITE;
 /*!40000 ALTER TABLE `ticket_tratamiento` DISABLE KEYS */;
-INSERT INTO `ticket_tratamiento` VALUES (63,123318,9,2500.00,2),(64,123319,6,700.00,1),(65,123323,6,700.00,1),(66,123324,6,700.00,2),(67,123326,7,1000.00,7),(68,123332,9,2500.00,5);
+INSERT INTO `ticket_tratamiento` VALUES (63,123318,9,2500.00,2),(64,123319,6,700.00,1),(65,123323,6,700.00,1),(66,123324,6,700.00,2),(67,123326,7,1000.00,7),(68,123332,9,2500.00,5),(69,123334,7,1000.00,7);
 /*!40000 ALTER TABLE `ticket_tratamiento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -263,7 +263,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `trabajadores_contacto` WRITE;
 /*!40000 ALTER TABLE `trabajadores_contacto` DISABLE KEYS */;
-INSERT INTO `trabajadores_contacto` VALUES (1,1,'trabajador1@email.com',54,12345678,'Calle A 123','CABA',NULL,'Argentina','1234'),(2,2,'trabajador2@email.com',54,98765432,'Calle B 456','CABA',NULL,'Argentina','2345'),(3,3,'trabajador3@email.com',54,55544443,'Calle C 789','CABA',NULL,'Argentina','3456'),(4,4,'trabajador4@email.com',54,22211112,'Calle D 012','CABA',NULL,'Argentina','4567'),(5,5,'trabajador5@email.com',54,88899991,'Calle E 345','CABA',NULL,'Argentina','5678'),(6,6,'trabajador6@email.com',54,33322224,'Calle F 678','CABA',NULL,'Argentina','6789'),(7,7,'trabajador7@email.com',54,44455553,'Calle G 901','CABA',NULL,'Argentina','7890'),(8,8,'trabajador8@email.com',54,77766662,'Calle H 234','CABA',NULL,'Argentina','8901'),(9,9,'trabajador9@email.com',54,11122221,'Calle I 567','CABA',NULL,'Argentina','9012'),(10,10,'trabajador10@email.com',54,99988883,'Calle J 890','CABA',NULL,'Argentina','123'),(11,11,'trabajador12@email.com',54,33344449,'Calle K 123','CABA',NULL,'Argentina','1234');
+INSERT INTO `trabajadores_contacto` VALUES (1,1,'trabajador1@email.com',54,12345678,'Calle A 123','CABA',NULL,'Argentina',1234),(2,2,'trabajador2@email.com',54,98765432,'Calle B 456','CABA',NULL,'Argentina',2345),(3,3,'trabajador3@email.com',54,55544443,'Calle C 789','CABA',NULL,'Argentina',3456),(4,4,'trabajador4@email.com',54,22211112,'Calle D 012','CABA',NULL,'Argentina',4567),(5,5,'trabajador5@email.com',54,88899991,'Calle E 345','CABA',NULL,'Argentina',5678),(6,6,'trabajador6@email.com',54,33322224,'Calle F 678','CABA',NULL,'Argentina',6789),(7,7,'trabajador7@email.com',54,44455553,'Calle G 901','CABA',NULL,'Argentina',7890),(8,8,'trabajador8@email.com',54,77766662,'Calle H 234','CABA',NULL,'Argentina',8901),(9,9,'trabajador9@email.com',54,11122221,'Calle I 567','CABA',NULL,'Argentina',9012),(10,10,'trabajador10@email.com',54,99988883,'Calle J 890','CABA',NULL,'Argentina',123),(11,11,'trabajador12@email.com',54,33344449,'Calle K 123','CABA',NULL,'Argentina',1234);
 /*!40000 ALTER TABLE `trabajadores_contacto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,7 +273,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `trabajadores_pago` WRITE;
 /*!40000 ALTER TABLE `trabajadores_pago` DISABLE KEYS */;
-INSERT INTO `trabajadores_pago` VALUES (1,1,35000.00,1,291.66,'2023-07-18'),(2,1,35000.00,1,35291.66,'2023-07-18'),(3,3,36000.00,4,37200.00,'2023-08-15'),(4,4,40000.00,2,40666.68,'2023-08-15'),(5,5,30000.00,0,30000.00,'2023-08-15'),(6,6,32000.00,5,33333.30,'2023-08-15'),(7,7,34000.00,1,34283.34,'2023-08-15'),(8,8,34000.00,2,34566.68,'2023-08-15'),(9,9,31000.00,1,31258.34,'2023-08-15'),(10,10,29000.00,3,29724.98,'2023-08-15'),(11,11,35500.00,1,35795.84,'2023-08-15');
+INSERT INTO `trabajadores_pago` VALUES (1,1,35000.00,1,291.66,'2023-07-18'),(2,1,35000.00,1,35291.66,'2023-07-18'),(3,3,36000.00,4,37200.00,'2023-08-15'),(4,4,40000.00,2,40666.68,'2023-08-15'),(5,5,30000.00,0,30000.00,'2023-08-15'),(6,6,32000.00,5,33333.30,'2023-08-15'),(7,7,34000.00,1,34283.34,'2023-08-15'),(8,8,34000.00,2,34566.68,'2023-08-15'),(9,9,31000.00,1,31258.34,'2023-08-15'),(10,10,29000.00,3,29724.98,'2023-08-15'),(11,11,35500.00,1,35795.84,'2023-08-15'),(12,5,30000.00,2,30500.00,'2023-08-28');
 /*!40000 ALTER TABLE `trabajadores_pago` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -296,4 +296,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-25 22:30:30
+-- Dump completed on 2023-08-28  1:33:31

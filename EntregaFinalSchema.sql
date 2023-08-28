@@ -34,7 +34,7 @@ CREATE TABLE `animal` (
   `edad_meses` int DEFAULT NULL,
   `malestar` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -218,7 +218,7 @@ CREATE TABLE `log_nuevos_animales` (
   `tipo` varchar(50) NOT NULL,
   `edad_meses` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,7 +274,7 @@ CREATE TABLE `log_ticket_nuevo` (
   `total` decimal(9,2) DEFAULT NULL,
   `id_ticket` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -294,7 +294,7 @@ CREATE TABLE `log_venta_mercaderia` (
   `fecha` date NOT NULL,
   `hora` time NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -311,7 +311,7 @@ CREATE TABLE `log_venta_tratamiento` (
   `fecha` date NOT NULL,
   `hora` time NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -441,7 +441,7 @@ CREATE TABLE `provedor_contacto` (
   `ciudad` varchar(40) NOT NULL,
   `provincia` varchar(40) DEFAULT NULL,
   `pais` varchar(40) NOT NULL,
-  `codigo_postal` varchar(40) NOT NULL,
+  `codigo_postal` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_provedor` (`id_provedor`),
   CONSTRAINT `provedor_contacto_ibfk_1` FOREIGN KEY (`id_provedor`) REFERENCES `provedor` (`id`)
@@ -468,7 +468,7 @@ CREATE TABLE `ticket` (
   KEY `ticket_ibfk_1` (`cliente`),
   CONSTRAINT `FK_id_trabajador_ticket` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `ticket_ibfk_1` FOREIGN KEY (`cliente`) REFERENCES `cliente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=123334 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=123336 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -513,7 +513,7 @@ CREATE TABLE `ticket_mercaderia` (
   CONSTRAINT `FK_id_trabajador` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id`),
   CONSTRAINT `ticket_mercaderia_ibfk_1` FOREIGN KEY (`id_mercaderia`) REFERENCES `mercaderia` (`id`),
   CONSTRAINT `ticket_mercaderia_ibfk_2` FOREIGN KEY (`id_ticket`) REFERENCES `ticket` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -552,7 +552,7 @@ CREATE TABLE `ticket_tratamiento` (
   CONSTRAINT `FK_id_trabajador_tratamiento` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `ticket_tratamiento_ibfk_1` FOREIGN KEY (`id_tratamiento`) REFERENCES `tratamiento` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `ticket_tratamiento_ibfk_2` FOREIGN KEY (`id_ticket`) REFERENCES `ticket` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -591,7 +591,7 @@ CREATE TABLE `ticket_venta_temporal` (
   CONSTRAINT `fk_mercaderia_ventas` FOREIGN KEY (`id_mercaderia`) REFERENCES `mercaderia` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_trabajador_ventas` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_tratamiento_ventas` FOREIGN KEY (`id_tratamiento`) REFERENCES `tratamiento` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=170 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=172 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -628,7 +628,7 @@ CREATE TABLE `trabajadores_contacto` (
   `ciudad` varchar(40) NOT NULL,
   `provincia` varchar(40) DEFAULT NULL,
   `pais` varchar(40) NOT NULL,
-  `codigo_postal` varchar(40) NOT NULL,
+  `codigo_postal` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_trabajador` (`id_trabajador`),
   CONSTRAINT `trabajadores_contacto_ibfk_1` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id`)
@@ -652,7 +652,7 @@ CREATE TABLE `trabajadores_pago` (
   PRIMARY KEY (`id`),
   KEY `id_trabajador` (`id_trabajador`),
   CONSTRAINT `trabajadores_pago_ibfk_1` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -951,7 +951,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `quitar_animal`(IN id_animal CHAR(20))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `quitar_animal`(IN id_animal INT)
 BEGIN
 DELETE FROM animal WHERE id = id_animal; 
 END ;;
@@ -1352,4 +1352,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-25 22:30:09
+-- Dump completed on 2023-08-28  1:34:28
