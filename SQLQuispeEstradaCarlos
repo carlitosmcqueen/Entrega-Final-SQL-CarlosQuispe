@@ -1,0 +1,354 @@
+
+CREATE TABLE animal (
+  id INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(30),
+  tipo VARCHAR(30),
+  raza VARCHAR(30),
+  estado VARCHAR(30),
+  descripcion VARCHAR(200),
+  edad_meses INT,
+  malestar VARCHAR(200),
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE cliente (
+  id INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(30) NOT NULL,
+  apellido VARCHAR(30) NOT NULL,
+  tipo_de_documento VARCHAR(30) NOT NULL,
+  N_documento VARCHAR(30) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE provedor (
+  id INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(30) NOT NULL,
+  descripcion VARCHAR(200) NOT NULL,
+  fecha_relacion DATE NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE trabajadores (
+  id INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(30) NOT NULL,
+  apellido VARCHAR(30) NOT NULL,
+  horarios VARCHAR(30) NOT NULL,
+  sueldo DECIMAL(7,2) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE mascotas (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_cliente INT NOT NULL,
+  id_animal INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_cliente) REFERENCES cliente (id),
+  FOREIGN KEY (id_animal) REFERENCES animal (id)
+);
+
+CREATE TABLE citas (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_cliente INT NOT NULL,
+  id_animal INT NOT NULL,
+  fecha_cita TIMESTAMP NOT NULL,
+  observaciones VARCHAR(200),
+  estado VARCHAR(20) DEFAULT 'pendiente',
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_cliente) REFERENCES cliente (id),
+  FOREIGN KEY (id_animal) REFERENCES animal (id)
+);
+
+
+
+
+
+CREATE TABLE cliente_contacto (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_cliente INT NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  numero_area INT NOT NULL DEFAULT 54,
+  numero INT NOT NULL,
+  direccion VARCHAR(40) NOT NULL,
+  ciudad VARCHAR(40) NOT NULL,
+  provincia VARCHAR(40) DEFAULT NULL,
+  pais VARCHAR(40) NOT NULL,
+  codigo_postal INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_cliente) REFERENCES cliente (id)
+);
+
+CREATE TABLE especialidades (
+  id INT NOT NULL AUTO_INCREMENT,
+  especialidad VARCHAR(40) DEFAULT NULL,
+  descripcion VARCHAR(200) DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE especialidades_trabajador (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_trabajador INT NOT NULL,
+  id_especialidad INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_trabajador) REFERENCES trabajadores (id),
+  FOREIGN KEY (id_especialidad) REFERENCES especialidades (id)
+);
+
+
+CREATE TABLE historial_tratamientos (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_tratamiento INT NOT NULL,
+  id_animal INT NOT NULL,
+  fecha DATE DEFAULT NULL,
+  hora TIME DEFAULT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_tratamiento) REFERENCES tratamiento (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  FOREIGN KEY (id_animal) REFERENCES animal (id) ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+
+
+CREATE TABLE mercaderia (
+  id INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(50) NOT NULL,
+  stock INT NOT NULL,
+  descripcion VARCHAR(200) NOT NULL,
+  precio DECIMAL(9,2) NOT NULL,
+  provedor INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (provedor) REFERENCES provedor (id)
+);
+
+CREATE TABLE personal_tratamiento (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_tratamiento INT NOT NULL,
+  id_trabajador INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_tratamiento) REFERENCES tratamiento (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (id_trabajador) REFERENCES trabajadores (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+CREATE TABLE provedor_contacto (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_provedor INT NOT NULL,
+  email VARCHAR(50) DEFAULT NULL,
+  numero_area INT NOT NULL DEFAULT 54,
+  numero INT DEFAULT NULL,
+  direccion VARCHAR(40) NOT NULL,
+  ciudad VARCHAR(40) NOT NULL,
+  provincia VARCHAR(40) DEFAULT NULL,
+  pais VARCHAR(40) NOT NULL,
+  codigo_postal INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_provedor) REFERENCES provedor (id)
+);
+
+CREATE TABLE ticket (
+  id INT NOT NULL AUTO_INCREMENT,
+  cliente INT DEFAULT NULL,
+  subtotal DECIMAL(9,2) DEFAULT NULL,
+  iva DECIMAL(9,2) DEFAULT NULL,
+  total DECIMAL(9,2) DEFAULT NULL,
+  fecha TIMESTAMP NULL DEFAULT NULL,
+  id_trabajador INT DEFAULT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_trabajador) REFERENCES trabajadores (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (cliente) REFERENCES cliente (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+CREATE TABLE ticket_mercaderia (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_ticket INT NOT NULL,
+  id_mercaderia INT NOT NULL,
+  precio_unidad DECIMAL(9,2) NOT NULL,
+  cantidad INT NOT NULL,
+  precio_total DECIMAL(9,2) NOT NULL,
+  iva DECIMAL(9,2) NOT NULL,
+  id_trabajador INT NOT NULL,
+  subtotal DECIMAL(9,2) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_trabajador) REFERENCES trabajadores (id),
+  FOREIGN KEY (id_mercaderia) REFERENCES mercaderia (id),
+  FOREIGN KEY (id_ticket) REFERENCES ticket (id)
+);
+
+
+CREATE TABLE ticket_tratamiento (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_ticket INT NOT NULL,
+  id_tratamiento INT NOT NULL,
+  precio_unidad DECIMAL(9,2) NOT NULL,
+  id_trabajador INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_trabajador) REFERENCES trabajadores (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (id_tratamiento) REFERENCES tratamiento (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (id_ticket) REFERENCES ticket (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+CREATE TABLE ticket_venta_temporal (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_trabajador INT DEFAULT NULL,
+  id_mercaderia INT DEFAULT NULL,
+  cantidad INT DEFAULT 1,
+  id_tratamiento INT DEFAULT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_mercaderia) REFERENCES mercaderia (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (id_trabajador) REFERENCES trabajadores (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (id_tratamiento) REFERENCES tratamiento (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE trabajadores_contacto (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_trabajador INT NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  numero_area INT NOT NULL DEFAULT 54,
+  numero INT NOT NULL,
+  direccion VARCHAR(40) NOT NULL,
+  ciudad VARCHAR(40) NOT NULL,
+  provincia VARCHAR(40) DEFAULT NULL,
+  pais VARCHAR(40) NOT NULL,
+  codigo_postal INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_trabajador) REFERENCES trabajadores (id)
+);
+
+
+CREATE TABLE tratamiento (
+  id INT NOT NULL AUTO_INCREMENT,
+  tipo VARCHAR(30) NOT NULL,
+  descripcion VARCHAR(300) NOT NULL,
+  costo DECIMAL(9,2) NOT NULL,
+  id_personal INT DEFAULT NULL,
+  id_animal INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_animal) REFERENCES animal (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+--------------------------- VISTAS ---------------------------------
+
+CREATE VIEW view_animales_cliente AS
+SELECT 
+    c.nombre AS nombre,
+    COUNT(m.id_animal) AS cantidad_mascotas
+FROM
+    cliente c
+    JOIN mascotas m ON c.id = m.id_cliente
+    JOIN animal a ON a.id = m.id_animal
+GROUP BY c.nombre;
+
+
+CREATE VIEW view_mercaderia AS
+SELECT 
+    m.nombre AS producto,
+    SUM(m.stock) AS stock_total,
+    SUM((m.precio * m.stock)) AS precio_total
+FROM
+    mercaderia m
+GROUP BY m.nombre;
+
+CREATE VIEW view_productos_vendidos AS
+SELECT 
+    m.id AS id_producto,
+    m.nombre AS nombre,
+    SUM(tm.cantidad) AS veces_vendido
+FROM
+    ticket_mercaderia tm
+    JOIN mercaderia m ON tm.id_mercaderia = m.id
+GROUP BY m.id, tm.id_mercaderia;
+
+
+CREATE VIEW view_tickets_tratamiento AS
+SELECT 
+    tt.id_tratamiento AS id_tratamiento,
+    t.cliente AS id_cliente,
+    c.nombre AS nombre,
+    COUNT(t.id) AS veces_usado_el_tratamiento,
+    SUM(t.total) AS total
+FROM
+    ticket t
+    JOIN ticket_tratamiento tt ON t.id = tt.id_ticket
+    JOIN cliente c ON c.id = t.cliente
+GROUP BY tt.id_tratamiento, t.cliente;
+
+
+CREATE VIEW view_total_cliente AS
+SELECT 
+    c.id AS id_cliente,
+    c.nombre AS nombre,
+    SUM(t.total) AS precio_total
+FROM
+    cliente c
+    JOIN ticket t ON c.id = t.cliente
+GROUP BY c.id;
+
+
+CREATE VIEW view_tratamiento_mascota AS
+SELECT 
+    a.nombre AS nombre,
+    t.tipo AS tipo,
+    a.descripcion AS descripcion
+FROM
+    animal a
+    JOIN tratamiento t ON a.id = t.id_animal;
+
+CREATE VIEW vw_animal_edades AS
+SELECT 
+    animal.nombre AS nombre,
+    animal.tipo AS tipo,
+    EDAD_ANOS(animal.edad_meses) AS años
+FROM
+    animal;
+
+
+
+-------------------------------- FUNCIONES ----------------------------
+
+
+DELIMITER $$
+
+CREATE FUNCTION edad_anos(meses INT) RETURNS DECIMAL(9,2)
+    DETERMINISTIC
+BEGIN
+    DECLARE anos_totales DECIMAL(9,2);
+    SET anos_totales = meses / 12.0;
+    RETURN anos_totales;
+END $$
+
+CREATE FUNCTION horas_extras_pago(id_trabajador INT, horas_extras INT) RETURNS DECIMAL(9,2)
+    DETERMINISTIC
+BEGIN
+    DECLARE pago_extra DECIMAL(9,2);
+    DECLARE sueldo_x_hora DECIMAL(9,2);
+    SET sueldo_x_hora = ((SELECT sueldo FROM trabajadores WHERE id = id_trabajador)/30)/8;
+    SET pago_extra = ( (sueldo_x_hora * horas_extras) * 2);
+    RETURN pago_extra;
+END $$
+
+
+CREATE FUNCTION iva(monto DECIMAL) RETURNS DECIMAL(9,2)
+    DETERMINISTIC
+BEGIN
+    DECLARE total DECIMAL(9,2);
+    DECLARE iva DECIMAL(9,2);
+    SET iva = 0.21;
+    SELECT monto * iva INTO TOTAL;
+    RETURN total;
+END $$
+
+CREATE FUNCTION precio_total(subtotal DECIMAL(9,2)) RETURNS DECIMAL(9,2)
+    DETERMINISTIC
+BEGIN
+    DECLARE iva DECIMAL(9,2);
+    DECLARE total DECIMAL(9,2);
+    SET iva = iva(subtotal);
+    SET total = subtotal + iva;
+    RETURN total;
+END $$
+
+DELIMITER ;
+
+
+------------------STORE PROCEDURE ------------------------
+
