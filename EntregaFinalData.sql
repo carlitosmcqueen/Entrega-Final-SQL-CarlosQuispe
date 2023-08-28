@@ -43,7 +43,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (1,'carlos','estrada','dni','229018381'),(2,'jorge','vila','dni','229018441'),(3,'maria','mamani','dni','229018312'),(4,'Eliana Kramer','Leblanc','DNI','64797408'),(5,'Graham Carney','Morrison','DNI','49410967'),(6,'Jane Sparks','Sawyer','DNI','76653954'),(7,'Chelsea Reyes','Ruiz','DNI','21978572'),(8,'Stephanie Dillard','Byers','DNI','20862220'),(9,'Mechelle Hammond','Bishop','DNI','65368725'),(10,'Christian Herring','Roberts','DNI','66193845'),(11,'Beatrice Stevens','Ortiz','DNI','16844883'),(12,'Larissa Riggs','Solis','DNI','91541684'),(13,'Autumn Holt','Richmond','DNI','75682886'),(15,'Pepe','Argento','DNI','12345678');
+INSERT INTO `cliente` VALUES (1,'carlos','estrada','dni',229018381),(2,'jorge','vila','dni',229018441),(3,'maria','mamani','dni',229018312),(4,'Eliana Kramer','Leblanc','DNI',64797408),(5,'Graham Carney','Morrison','DNI',49410967),(6,'Jane Sparks','Sawyer','DNI',76653954),(7,'Chelsea Reyes','Ruiz','DNI',21978572),(8,'Stephanie Dillard','Byers','DNI',20862220),(9,'Mechelle Hammond','Bishop','DNI',65368725),(10,'Christian Herring','Roberts','DNI',66193845),(11,'Beatrice Stevens','Ortiz','DNI',16844883),(12,'Larissa Riggs','Solis','DNI',91541684),(13,'Autumn Holt','Richmond','DNI',75682886),(15,'Pepe','Argento','DNI',12345678);
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -296,4 +296,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-28  1:33:31
+-- Dump completed on 2023-08-28  1:46:17
