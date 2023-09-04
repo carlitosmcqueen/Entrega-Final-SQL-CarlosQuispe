@@ -464,15 +464,16 @@ FOR EACH ROW
 INSERT INTO log_nuevos_mercaderia(id, id_mercaderia, mercaderia, cantidad_ingresada, precio, provedor, fecha, hora)
 VALUES (NULL, NEW.id, NEW.nombre, NEW.stock, NEW.precio, NEW.provedor, CURRENT_DATE(), CURRENT_TIME());
 
-DELIMITER //
-
+DELIMITER $$
 CREATE TRIGGER log_actualizacion_precio BEFORE UPDATE ON mercaderia
 FOR EACH ROW
-IF NEW.precio <> OLD.precio THEN
-    INSERT INTO log_actualizacion_de_precios_mercaderia (id_mercaderia, precio_nuevo, precio_viejo, fecha, hora)
-    VALUES (NEW.id, NEW.precio, OLD.precio, CURRENT_DATE(), CURRENT_TIME())
-END IF
-END
+BEGIN
+    IF NEW.precio <> OLD.precio THEN
+        INSERT INTO log_actualizacion_de_precios_mercaderia (id_mercaderia, precio_nuevo, precio_viejo, fecha, hora)
+        VALUES (NEW.id, NEW.precio, OLD.precio, CURRENT_DATE(), CURRENT_TIME());
+    END IF;
+END;
+$$
 DELIMITER ;
 
 CREATE TRIGGER log_ticket_nuevo AFTER UPDATE ON ticket
