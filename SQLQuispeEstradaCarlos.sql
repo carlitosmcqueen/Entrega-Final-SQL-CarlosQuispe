@@ -44,6 +44,17 @@ CREATE TABLE trabajadores (
   PRIMARY KEY (id)
 );
 
+CREATE TABLE tratamiento (
+  id INT NOT NULL AUTO_INCREMENT,
+  tipo VARCHAR(30) NOT NULL,
+  descripcion VARCHAR(300) NOT NULL,
+  costo DECIMAL(9,2) NOT NULL,
+  id_personal INT DEFAULT NULL,
+  id_animal INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_animal) REFERENCES animal (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 CREATE TABLE mascotas (
   id INT NOT NULL AUTO_INCREMENT,
   id_cliente INT NOT NULL,
@@ -220,17 +231,140 @@ CREATE TABLE trabajadores_contacto (
   FOREIGN KEY (id_trabajador) REFERENCES trabajadores (id)
 );
 
-
-CREATE TABLE tratamiento (
+CREATE TABLE log_actualizacion_de_precios_mercaderia (
   id INT NOT NULL AUTO_INCREMENT,
-  tipo VARCHAR(30) NOT NULL,
-  descripcion VARCHAR(300) NOT NULL,
-  costo DECIMAL(9,2) NOT NULL,
-  id_personal INT DEFAULT NULL,
-  id_animal INT NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (id_animal) REFERENCES animal (id) ON DELETE CASCADE ON UPDATE CASCADE
+  id_mercaderia INT DEFAULT NULL,
+  precio_nuevo DECIMAL(7,2) NOT NULL,
+  precio_viejo DECIMAL(7,2) NOT NULL,
+  fecha DATE NOT NULL,
+  hora TIME NOT NULL,
+  PRIMARY KEY (id)
 );
+
+CREATE TABLE log_ticket_nuevo (
+  id INT NOT NULL AUTO_INCREMENT,
+  subtotal DECIMAL(9,2) DEFAULT NULL,
+  iva DECIMAL(9,2) DEFAULT NULL,
+  fecha DATE DEFAULT NULL,
+  hora TIME DEFAULT NULL,
+  total DECIMAL(9,2) DEFAULT NULL,
+  id_ticket INT DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
+
+CREATE TABLE log_venta_mercaderia (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_mercaderia INT NOT NULL,
+  precio_unidad DECIMAL(9,2) NOT NULL,
+  cantidad INT NOT NULL,
+  precio_total DECIMAL(9,2) NOT NULL,
+  iva DECIMAL(9,2) NOT NULL,
+  fecha DATE NOT NULL,
+  hora TIME NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE log_venta_tratamiento (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_tratamiento INT NOT NULL,
+  precio DECIMAL(9,2) DEFAULT NULL,
+  fecha DATE NOT NULL,
+  hora TIME NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE log_nuevos_mercaderia (
+  id INT NOT NULL AUTO_INCREMENT,
+  cantidad_ingresada INT DEFAULT NULL,
+  precio DECIMAL(9,2) DEFAULT NULL,
+  provedor VARCHAR(50) DEFAULT NULL,
+  fecha DATE DEFAULT NULL,
+  hora TIME DEFAULT NULL,
+  id_mercaderia INT DEFAULT NULL,
+  mercaderia VARCHAR(70) DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE log_nuevos_animales (
+  id INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(50) DEFAULT NULL,
+  tipo VARCHAR(50) NOT NULL,
+  edad_meses INT NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE log_nuevos_clientes (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_cliente INT NOT NULL,
+  fecha DATE NOT NULL,
+  hora TIME NOT NULL,
+  nombre VARCHAR(70) DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
+
+
+CREATE TABLE trabajadores_pago (
+  id INT NOT NULL AUTO_INCREMENT,
+  id_trabajador INT NOT NULL,
+  sueldo DECIMAL(9,2) NOT NULL,
+  hora_extra INT NOT NULL,
+  pago_total DECIMAL(9,2) NOT NULL,
+  fecha DATE DEFAULT NULL,
+  PRIMARY KEY (id),
+  KEY id_trabajador (id_trabajador),
+  CONSTRAINT fk_trabajadores_pago FOREIGN KEY (id_trabajador) REFERENCES trabajadores (id)
+);
+
+
+-------------------------------- FUNCIONES ----------------------------
+
+
+DELIMITER $$
+
+CREATE FUNCTION edad_anos(meses INT) RETURNS DECIMAL(9,2)
+    DETERMINISTIC
+BEGIN
+    DECLARE anos_totales DECIMAL(9,2);
+    SET anos_totales = meses / 12.0;
+    RETURN anos_totales;
+END $$
+
+CREATE FUNCTION horas_extras_pago(id_trabajador INT, horas_extras INT) RETURNS DECIMAL(9,2)
+    DETERMINISTIC
+BEGIN
+    DECLARE pago_extra DECIMAL(9,2);
+    DECLARE sueldo_x_hora DECIMAL(9,2);
+    SET sueldo_x_hora = ((SELECT sueldo FROM trabajadores WHERE id = id_trabajador)/30)/8;
+    SET pago_extra = ( (sueldo_x_hora * horas_extras) * 2);
+    RETURN pago_extra;
+END $$
+
+
+CREATE FUNCTION iva(monto DECIMAL) RETURNS DECIMAL(9,2)
+    DETERMINISTIC
+BEGIN
+    DECLARE total DECIMAL(9,2);
+    DECLARE iva DECIMAL(9,2);
+    SET iva = 0.21;
+    SELECT monto * iva INTO TOTAL;
+    RETURN total;
+END $$
+
+CREATE FUNCTION precio_total(subtotal DECIMAL(9,2)) RETURNS DECIMAL(9,2)
+    DETERMINISTIC
+BEGIN
+    DECLARE iva DECIMAL(9,2);
+    DECLARE total DECIMAL(9,2);
+    SET iva = iva(subtotal);
+    SET total = subtotal + iva;
+    RETURN total;
+END $$
+
+DELIMITER ;
+
+
 
 
 --------------------------- VISTAS ---------------------------------
@@ -309,52 +443,62 @@ FROM
     animal;
 
 
-
--------------------------------- FUNCIONES ----------------------------
-
-
-DELIMITER $$
-
-CREATE FUNCTION edad_anos(meses INT) RETURNS DECIMAL(9,2)
-    DETERMINISTIC
-BEGIN
-    DECLARE anos_totales DECIMAL(9,2);
-    SET anos_totales = meses / 12.0;
-    RETURN anos_totales;
-END $$
-
-CREATE FUNCTION horas_extras_pago(id_trabajador INT, horas_extras INT) RETURNS DECIMAL(9,2)
-    DETERMINISTIC
-BEGIN
-    DECLARE pago_extra DECIMAL(9,2);
-    DECLARE sueldo_x_hora DECIMAL(9,2);
-    SET sueldo_x_hora = ((SELECT sueldo FROM trabajadores WHERE id = id_trabajador)/30)/8;
-    SET pago_extra = ( (sueldo_x_hora * horas_extras) * 2);
-    RETURN pago_extra;
-END $$
+---------------------TRIGGERS-----------------------
 
 
-CREATE FUNCTION iva(monto DECIMAL) RETURNS DECIMAL(9,2)
-    DETERMINISTIC
-BEGIN
-    DECLARE total DECIMAL(9,2);
-    DECLARE iva DECIMAL(9,2);
-    SET iva = 0.21;
-    SELECT monto * iva INTO TOTAL;
-    RETURN total;
-END $$
+CREATE TRIGGER log_ingreso_animal AFTER INSERT ON animal
+FOR EACH ROW
+INSERT INTO log_nuevos_animales(nombre, tipo, edad_meses)
+VALUES (NEW.nombre, NEW.tipo, NEW.edad_meses);
 
-CREATE FUNCTION precio_total(subtotal DECIMAL(9,2)) RETURNS DECIMAL(9,2)
-    DETERMINISTIC
-BEGIN
-    DECLARE iva DECIMAL(9,2);
-    DECLARE total DECIMAL(9,2);
-    SET iva = iva(subtotal);
-    SET total = subtotal + iva;
-    RETURN total;
-END $$
 
+
+CREATE TRIGGER log_ingreso_cliente AFTER INSERT ON cliente
+FOR EACH ROW
+    INSERT INTO log_nuevos_clientes(id_cliente, nombre, fecha, hora)
+    VALUES (NEW.id, NEW.nombre, CURRENT_DATE(), CURRENT_TIME());
+
+
+CREATE TRIGGER log_nuevos_mercaderia AFTER INSERT ON mercaderia
+FOR EACH ROW
+INSERT INTO log_nuevos_mercaderia(id, id_mercaderia, mercaderia, cantidad_ingresada, precio, provedor, fecha, hora)
+VALUES (NULL, NEW.id, NEW.nombre, NEW.stock, NEW.precio, NEW.provedor, CURRENT_DATE(), CURRENT_TIME());
+
+DELIMITER //
+
+CREATE TRIGGER log_actualizacion_precio BEFORE UPDATE ON mercaderia
+FOR EACH ROW
+IF NEW.precio <> OLD.precio THEN
+    INSERT INTO log_actualizacion_de_precios_mercaderia (id_mercaderia, precio_nuevo, precio_viejo, fecha, hora)
+    VALUES (NEW.id, NEW.precio, OLD.precio, CURRENT_DATE(), CURRENT_TIME())
+END IF
+END
 DELIMITER ;
+
+CREATE TRIGGER log_ticket_nuevo AFTER UPDATE ON ticket
+FOR EACH ROW
+INSERT INTO log_ticket_nuevo(id, subtotal, iva, fecha, hora, total, id_ticket)
+VALUES (NULL, NEW.subtotal, NEW.iva, CURRENT_DATE(), CURRENT_TIME(), NEW.total, NEW.id);
+
+
+CREATE TRIGGER log_ticket_mercaderia AFTER INSERT ON ticket_mercaderia
+FOR EACH ROW
+INSERT INTO log_venta_mercaderia(id_mercaderia, precio_unidad, cantidad, precio_total, iva, fecha, hora)
+VALUES (NEW.id_mercaderia, NEW.precio_unidad, NEW.cantidad, NEW.precio_total, NEW.iva, CURRENT_DATE(), CURRENT_TIME());
+
+CREATE TRIGGER log_ticket_tratamiento AFTER INSERT ON ticket_tratamiento
+FOR EACH ROW
+INSERT INTO log_venta_tratamiento(id_tratamiento, precio, fecha, hora)
+VALUES (NEW.id_tratamiento, NEW.precio_unidad, CURRENT_DATE(), CURRENT_TIME());
+
+
+CREATE TRIGGER log_historial_tratamiento AFTER INSERT ON tratamiento
+FOR EACH ROW
+INSERT INTO historial_tratamientos(id_tratamiento, id_animal, fecha, hora)
+VALUES (NEW.id, NEW.id_animal, CURRENT_DATE(), CURRENT_TIME());
+
+
+
 
 
 ------------------STORE PROCEDURE ------------------------
@@ -518,58 +662,7 @@ DELIMITER ;
 
 
 
----------------------TRIGGERS-----------------------
 
-
-CREATE TRIGGER log_ingreso_animal AFTER INSERT ON animal
-FOR EACH ROW
-INSERT INTO log_nuevos_animales(nombre, tipo, edad_meses)
-VALUES (NEW.nombre, NEW.tipo, NEW.edad_meses);
-
-
-
-CREATE TRIGGER log_ingreso_cliente AFTER INSERT ON cliente
-FOR EACH ROW
-    INSERT INTO log_nuevos_clientes(id_cliente, nombre, fecha, hora)
-    VALUES (NEW.id, NEW.nombre, CURRENT_DATE(), CURRENT_TIME());
-
-
-CREATE TRIGGER log_nuevos_mercaderia AFTER INSERT ON mercaderia
-FOR EACH ROW
-INSERT INTO log_nuevos_mercaderia(id, id_mercaderia, mercaderia, cantidad_ingresada, precio, provedor, fecha, hora)
-VALUES (NULL, NEW.id, NEW.nombre, NEW.stock, NEW.precio, NEW.provedor, CURRENT_DATE(), CURRENT_TIME());
-
-
-
-CREATE TRIGGER log_actualizacion_precio BEFORE UPDATE ON mercaderia
-FOR EACH ROW
-IF NEW.precio <> OLD.precio THEN
-    INSERT INTO log_actualizacion_de_precios_mercaderia (id_mercaderia, precio_nuevo, precio_viejo, fecha, hora)
-    VALUES (NEW.id, NEW.precio, OLD.precio, CURRENT_DATE(), CURRENT_TIME());
-END IF;
-
-
-CREATE TRIGGER log_ticket_nuevo AFTER UPDATE ON ticket
-FOR EACH ROW
-INSERT INTO log_ticket_nuevo(id, subtotal, iva, fecha, hora, total, id_ticket)
-VALUES (NULL, NEW.subtotal, NEW.iva, CURRENT_DATE(), CURRENT_TIME(), NEW.total, NEW.id);
-
-
-CREATE TRIGGER log_ticket_mercaderia AFTER INSERT ON ticket_mercaderia
-FOR EACH ROW
-INSERT INTO log_venta_mercaderia(id_mercaderia, precio_unidad, cantidad, precio_total, iva, fecha, hora)
-VALUES (NEW.id_mercaderia, NEW.precio_unidad, NEW.cantidad, NEW.precio_total, NEW.iva, CURRENT_DATE(), CURRENT_TIME());
-
-CREATE TRIGGER log_ticket_tratamiento AFTER INSERT ON ticket_tratamiento
-FOR EACH ROW
-INSERT INTO log_venta_tratamiento(id_tratamiento, precio, fecha, hora)
-VALUES (NEW.id_tratamiento, NEW.precio_unidad, CURRENT_DATE(), CURRENT_TIME());
-
-
-CREATE TRIGGER log_historial_tratamiento AFTER INSERT ON tratamiento
-FOR EACH ROW
-INSERT INTO historial_tratamientos(id_tratamiento, id_animal, fecha, hora)
-VALUES (NEW.id, NEW.id_animal, CURRENT_DATE(), CURRENT_TIME());
 
 ---------VALORES ------------- (para demostrar que si se poner valores)
 
@@ -589,16 +682,6 @@ VALUES
     (26, 'coscu', 'loro', '', 'ok', 'loro verde marron', 17, 'muy hablador');
 
 
-
-INSERT INTO citas
-VALUES
-    (1, 3, 3, '2023-08-20 23:19:11', 'ninguna', 'pendiente'),
-    (2, 2, 1, '2023-08-20 12:00:00', 'urgente', 'pendiente'),
-    (3, 2, 6, '2023-08-24 15:00:00', 'rutina', 'cancelada'),
-    (4, 6, 9, '2023-08-18 19:00:00', 'lleva bozal', 'terminado');
-
-
-
 INSERT INTO cliente
 VALUES
     (1, 'carlos', 'estrada', 'dni', 229018381),
@@ -615,6 +698,50 @@ VALUES
     (12, 'Larissa Riggs', 'Solis', 'DNI', 91541684),
     (13, 'Autumn Holt', 'Richmond', 'DNI', 75682886),
     (15, 'Pepe', 'Argento', 'DNI', 12345678);
+
+INSERT INTO provedor
+VALUES
+    (1, 'gato barato', 'comida para gato, gato barato dura un buen rato', '2023-01-22'),
+    (4, 'Emery Hobbs', 'risus. Nulla eget metus eu erat semper rutrum. Fusce dolor', '2022-03-08'),
+    (6, 'Harding Roth', 'tempor erat neque non quam. Pellentesque habitant morbi tristique senectus', '2022-02-19'),
+    (8, 'Oleg Cohen', 'taciti sociosqu ad litora torquent per conubia nostra, per inceptos', '2024-12-24'),
+    (9, 'Clementine Mills', 'rutrum. Fusce dolor quam, elementum at, egestas a, scelerisque sed,', '2023-12-12');
+
+INSERT INTO trabajadores
+VALUES
+    (1, 'ari', 'peres', 'lunes y jueves', 35000.00),
+    (2, 'Kellie Pruitt', 'Hooper', 'martes y miercoles', 33000.00),
+    (3, 'Uma Glass', 'Pearson', 'martes y miercoles', 36000.00),
+    (4, 'Dexter Weaver', 'Higgins', 'viernes y sabados', 40000.00),
+    (5, 'William Rivera', 'Barr', 'martes y miercoles', 30000.00),
+    (6, 'Blake Mckinney', 'Phelps', 'martes y miercoles', 32000.00),
+    (7, 'Evangeline Dean', 'Gibbs', 'martes y miercoles', 34000.00),
+    (8, 'Katelyn Pitts', 'Hull', 'martes y miercoles', 34000.00),
+    (9, 'Fatima Daniel', 'Chen', 'viernes y sabados', 31000.00),
+    (10, 'Kelly Glass', 'Mays', 'martes y miercoles', 29000.00),
+    (11, 'Cooper Pace', 'Santana', 'viernes y sabados', 35500.00);
+
+
+
+INSERT INTO tratamiento
+VALUES
+    (6, 'tramiento a base de pastillas', 'pastillaz de inflavet para el dolor', 700.00, 2, 7),
+    (7, 'enyesamiento', 'se pondra un lleso en la para lastimada', 1000.00, 3, 9),
+    (9, 'control de conducta', 'conducta anormal en el animal, seguimiento', 2500.00, 5, 5),
+    (10, 'control', 'Control rutinario', 1000.00, 6, 26),
+    (11, 'Parasitos', 'Desparatizacion del animal', 1200.00, 11, 3);
+
+
+
+INSERT INTO citas
+VALUES
+    (1, 3, 3, '2023-08-20 23:19:11', 'ninguna', 'pendiente'),
+    (2, 2, 1, '2023-08-20 12:00:00', 'urgente', 'pendiente'),
+    (3, 2, 6, '2023-08-24 15:00:00', 'rutina', 'cancelada'),
+    (4, 6, 9, '2023-08-18 19:00:00', 'lleva bozal', 'terminado');
+
+
+
 
 
 
@@ -712,15 +839,6 @@ VALUES
     (6, 7, 10),
     (7, 11, 2);
 
-INSERT INTO provedor
-VALUES
-    (1, 'gato barato', 'comida para gato, gato barato dura un buen rato', '2023-01-22'),
-    (4, 'Emery Hobbs', 'risus. Nulla eget metus eu erat semper rutrum. Fusce dolor', '2022-03-08'),
-    (6, 'Harding Roth', 'tempor erat neque non quam. Pellentesque habitant morbi tristique senectus', '2022-02-19'),
-    (8, 'Oleg Cohen', 'taciti sociosqu ad litora torquent per conubia nostra, per inceptos', '2024-12-24'),
-    (9, 'Clementine Mills', 'rutrum. Fusce dolor quam, elementum at, egestas a, scelerisque sed,', '2023-12-12');
-
-
 
 INSERT INTO provedor_contacto
 VALUES
@@ -779,19 +897,6 @@ VALUES
     (69, 123334, 7, 1000.00, 7);
 
 
-INSERT INTO trabajadores
-VALUES
-    (1, 'ari', 'peres', 'lunes y jueves', 35000.00),
-    (2, 'Kellie Pruitt', 'Hooper', 'martes y miercoles', 33000.00),
-    (3, 'Uma Glass', 'Pearson', 'martes y miercoles', 36000.00),
-    (4, 'Dexter Weaver', 'Higgins', 'viernes y sabados', 40000.00),
-    (5, 'William Rivera', 'Barr', 'martes y miercoles', 30000.00),
-    (6, 'Blake Mckinney', 'Phelps', 'martes y miercoles', 32000.00),
-    (7, 'Evangeline Dean', 'Gibbs', 'martes y miercoles', 34000.00),
-    (8, 'Katelyn Pitts', 'Hull', 'martes y miercoles', 34000.00),
-    (9, 'Fatima Daniel', 'Chen', 'viernes y sabados', 31000.00),
-    (10, 'Kelly Glass', 'Mays', 'martes y miercoles', 29000.00),
-    (11, 'Cooper Pace', 'Santana', 'viernes y sabados', 35500.00);
 
 
 INSERT INTO trabajadores_contacto
@@ -825,10 +930,3 @@ VALUES
     (12, 5, 30000.00, 2, 30500.00, '2023-08-28');
 
 
-INSERT INTO tratamiento
-VALUES
-    (6, 'tramiento a base de pastillas', 'pastillaz de inflavet para el dolor', 700.00, 2, 7),
-    (7, 'enyesamiento', 'se pondra un lleso en la para lastimada', 1000.00, 3, 9),
-    (9, 'control de conducta', 'conducta anormal en el animal, seguimiento', 2500.00, 5, 5),
-    (10, 'control', 'Control rutinario', 1000.00, 6, 26),
-    (11, 'Parasitos', 'Desparatizacion del animal', 1200.00, 11, 3);
